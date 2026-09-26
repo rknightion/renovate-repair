@@ -97,7 +97,6 @@ safe-outputs:
     base-branch: main            # a repair for a PR-rooted failure supersedes the Renovate PR
     draft: true
     auto-merge: false            # pilot; tiering is phase 2
-    title-prefix: "fix(ci): "
     labels: [renovate-repair]
     max: 1
     max-patch-files: 20
