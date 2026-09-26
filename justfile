@@ -10,12 +10,17 @@ default:
 setup:
     gh extension install github/gh-aw --pin {{ gh_aw_version }} --force
 
-# compile repair.md into repair.lock.yml
-fmt:
+# regenerate the repo choice list from repos.txt, then compile repair.md into repair.lock.yml
+fmt: sync-repos
     gh aw compile repair
 
-# fail if the committed lock file is stale
+# rewrite the repair.md repo choice list from repos.txt
+sync-repos:
+    python3 scripts/sync_repos.py
+
+# fail if the choice list or the committed lock file is stale
 fmt-check:
+    python3 scripts/sync_repos.py --check
     gh aw compile repair
     git diff --exit-code -- .github/workflows/repair.lock.yml
 

@@ -29,8 +29,12 @@ def main() -> int:
                 errors.append("safe_outputs must mint the broker token with id-token: write")
         elif has_mint or has_oidc:
             errors.append(f"job {name!r} must not mint a broker token or hold id-token: write")
-    if "workflows: write" in LOCK.read_text():
+    text = LOCK.read_text()
+    if "workflows: write" in text:
         errors.append("no job may hold workflows: write")
+    # GITHUB_TOKEN with actions: write can dispatch workflows, including this one.
+    if "actions: write" in text:
+        errors.append("no job may hold actions: write")
     for e in errors:
         print(f"check_lock: {e}", file=sys.stderr)
     return 1 if errors else 0
