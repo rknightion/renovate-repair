@@ -85,6 +85,9 @@ tools:
   edit:
 
 safe-outputs:
+  # The broker mint joins the tailnet; tailscaled cannot start on the default
+  # ubuntu-slim container runner, so this job needs a full VM.
+  runs-on: ubuntu-latest
   threat-detection:
     continue-on-error: false     # a positive verdict BLOCKS the PR, not just labels it
   create-pull-request:
