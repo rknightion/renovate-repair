@@ -1,7 +1,7 @@
 # renovate-repair
 
 A GitHub Agentic Workflows (gh-aw) workflow that repairs the CI failure blocking one Renovate pull
-request in a public rknightion or BroTEK-Solutions repository and proposes the fix as a draft PR.
+request in a public rknightion or BroTEK-Solutions repository and proposes the fix as a PR (auto-merge off).
 Pilot stage: dispatched by hand, auto-merge off.
 
 - Edit `.github/workflows/repair.md`, then `just fmt` to regenerate `repair.lock.yml`. Never edit
