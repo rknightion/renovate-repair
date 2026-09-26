@@ -12,35 +12,21 @@ on:
         options:
           # BEGIN repos (generated from repos.txt by `just sync-repos`)
           - BroTEK-Solutions/ha-addons
-          - rknightion/autopi-ha
           - rknightion/backlog-publishing
           - rknightion/bumblebee-catalog
           - rknightion/bumblebee-intune
           - rknightion/cf2otel
           - rknightion/codexlb2otel
-          - rknightion/fleet-management-operator
-          - rknightion/genai-otel-bridge
           - rknightion/grafana-aio11y-demo
-          - rknightion/grafana-cloud-org-insights
-          - rknightion/grafana-cloud-reference-examples
-          - rknightion/grafana-cloud-vending-machine
-          - rknightion/graph2otel
           - rknightion/grotTrack
           - rknightion/intune-assignments-manager
-          - rknightion/meraki-dashboard-exporter
-          - rknightion/meraki-dashboard-ha
           - rknightion/mq-exporter-dist
           - rknightion/openbao-plugin-secrets-github
-          - rknightion/opnsense2otel
-          - rknightion/paperless-ngx-dedupe
           - rknightion/polylens2otel
           - rknightion/profilarr
           - rknightion/rfc6035-2otel
           - rknightion/sagemcom-f3896-py
           - rknightion/sf2loki
-          - rknightion/synthkit
-          - rknightion/tailscale2otel
-          - rknightion/transceiver-exporter
           # END repos
       pr:
         description: Stuck Renovate pull request number
