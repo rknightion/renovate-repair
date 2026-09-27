@@ -34,4 +34,13 @@ Dispatched by the n8n workflow "GitHub — Renovate Repair Dispatcher", which al
   The dispatcher identifies its PRs by run correlation, never by label.
 - `AI_GATEWAY_TOKEN` is a Cloudflare token with Account AI Gateway Run only; the model is
   DeepSeek `deepseek-flash` via `https://ai.m7kni.com/deepseek` (Copilot BYOK, completions wire).
-- Plans: `~/repos/chat-personal/docs/superpowers/plans/2026-09-26-renovate-repair-gh-aw-pilot.md` (pilot) and `2026-09-26-renovate-repair-phase2.md` (dispatch and merge tiers).
+- **Carrier mode** (PR-rooted fix whose Renovate change is a protected path): one extra commit on the
+  Renovate branch via `push-to-pull-request-branch`, pinned to `target: ${{ inputs.pr }}`, required
+  label `stop-updating`, no fallback PR. n8n holds the PR before dispatch (auto-merge off, Renovate's
+  `stop-updating` label on) and passes `head_sha`; the `Guard the held Renovate PR` pre-step fails the
+  safe_outputs job unless the PR is still held at that exact head. Without the hold, Renovate's
+  GitHub auto-merge would merge the model's commit unseen. `check_lock.py` asserts all of this in
+  both the tool and the handler config. gh-aw's unsigned `git push` fallback cannot be disabled at
+  v0.89.21, so n8n only trusts a GitHub-signed commit by the broker bot.
+- Plans: `~/repos/chat-personal/docs/superpowers/plans/2026-09-26-renovate-repair-gh-aw-pilot.md` (pilot),
+  `2026-09-26-renovate-repair-phase2.md` (dispatch and merge tiers), `2026-09-27-renovate-repair-carrier.md` (carrier mode).
