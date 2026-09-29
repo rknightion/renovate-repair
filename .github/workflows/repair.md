@@ -17,7 +17,7 @@ on:
           - rknightion/bumblebee-intune
           - rknightion/cf2otel
           - rknightion/codexlb2otel
-          - rknightion/grafana-aio11y-demo
+          - rknightion/grafana-cloud-agento11y-demo
           - rknightion/grotTrack
           - rknightion/intune-assignments-manager
           - rknightion/mq-exporter-dist
