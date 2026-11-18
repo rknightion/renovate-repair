@@ -44,3 +44,11 @@ Dispatched by the n8n workflow "GitHub — Renovate Repair Dispatcher", which al
   v0.89.21, so n8n only trusts a GitHub-signed commit by the broker bot.
 - Plans: `~/repos/chat-personal/docs/superpowers/plans/2026-09-26-renovate-repair-gh-aw-pilot.md` (pilot),
   `2026-09-26-renovate-repair-phase2.md` (dispatch and merge tiers), `2026-09-27-renovate-repair-carrier.md` (carrier mode).
+
+## Cursor Cloud specific instructions
+
+- Build runs `just cloud-bootstrap` to install the pinned gh-aw compiler from its public release.
+  When bumping the compiler, update the matching Linux release checksums in `.cursor/install-gh-aw.sh`.
+- Run `just lint` for a fast lock check and `just check` for the full source gate, including workflow
+  compilation and a check for drift in the generated lock.
+- Dispatch and repair execution belong in GitHub Actions and require the configured hosted credentials.
