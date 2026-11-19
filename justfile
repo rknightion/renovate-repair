@@ -10,6 +10,10 @@ default:
 setup:
     gh extension install github/gh-aw --pin {{ gh_aw_version }} --force
 
+# install the same pinned compiler from its public release without a GitHub login
+cloud-bootstrap:
+    bash .cursor/install-gh-aw.sh {{ gh_aw_version }}
+
 # regenerate the repo choice list from repos.txt, then compile repair.md into repair.lock.yml
 fmt: sync-repos
     gh aw compile repair
