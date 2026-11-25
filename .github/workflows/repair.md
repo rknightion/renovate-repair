@@ -82,6 +82,9 @@ network:
     - node
     - python
     - github-actions
+    # The model gateway host. The compiler cannot read it from the repository
+    # variable that holds the full endpoint URL, so the firewall needs it here.
+    - ai.m7kni.com
 
 # Toolchains only. These run OUTSIDE the sandbox, so nothing here may install or
 # execute the target repository's dependencies; the agent does that inside it.
