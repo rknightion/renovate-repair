@@ -60,6 +60,14 @@ def main() -> int:
         errors.append("the extra-empty-commit CI trigger token must stay out of the lock")
     if "Guard the held Renovate PR" not in j.get("safe_outputs", ""):
         errors.append("safe_outputs must run the held-PR guard before any write")
+    # The model endpoint is a private deployment detail: the public source may only reference it
+    # through the repository variable, never a literal URL.
+    endpoints = re.findall(r"COPILOT_PROVIDER_BASE_URL: (.*)", text)
+    if not endpoints:
+        errors.append("COPILOT_PROVIDER_BASE_URL not found in the lock")
+    for value in endpoints:
+        if value.strip() != "${{ vars.COPILOT_PROVIDER_BASE_URL }}":
+            errors.append("COPILOT_PROVIDER_BASE_URL must come from vars.COPILOT_PROVIDER_BASE_URL")
     for e in errors:
         print(f"check_lock: {e}", file=sys.stderr)
     return 1 if errors else 0

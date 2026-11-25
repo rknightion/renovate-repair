@@ -54,7 +54,7 @@ permissions:
 engine:
   id: copilot
   env:
-    COPILOT_PROVIDER_BASE_URL: https://ai.m7kni.com/deepseek
+    COPILOT_PROVIDER_BASE_URL: ${{ vars.COPILOT_PROVIDER_BASE_URL }}
     COPILOT_PROVIDER_API_KEY: ${{ secrets.AI_GATEWAY_TOKEN }}
     COPILOT_PROVIDER_TYPE: openai
     COPILOT_PROVIDER_WIRE_API: completions
@@ -122,7 +122,7 @@ safe-outputs:
     fallback-as-issue: false
     github-token-for-extra-empty-commit: none
   # Carrier mode: a PR-rooted fix whose Renovate change is a protected path rides on the Renovate
-  # branch as one extra commit. n8n disabled auto-merge and added the hold label before dispatch,
+  # branch as one extra commit. the dispatcher disabled auto-merge and added the hold label before dispatch,
   # and the guard pre-step below re-checks both on the exact head before anything is pushed.
   push-to-pull-request-branch:
     github-token: ${{ steps.mint.outputs.token }}
@@ -165,7 +165,7 @@ jobs:
           PR: ${{ github.event.inputs.pr }}
           HEAD_SHA: ${{ github.event.inputs.head_sha }}
         run: |
-          # Fail closed: nothing is written unless the PR is still exactly as n8n held it, so a
+          # Fail closed: nothing is written unless the PR is still exactly as the dispatcher held it, so a
           # pushed fix can never be picked up by GitHub auto-merge or a Renovate rebase.
           [[ "$PR" =~ ^[0-9]+$ && "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "::error::bad pr or head_sha"; exit 1; }
           pr="$(gh api "repos/$REPO/pulls/$PR")"
@@ -178,7 +178,7 @@ timeout-minutes: 45
 # Kill switch: set the repository variable REPAIR_ENABLED to anything else to stop every run.
 if: vars.REPAIR_ENABLED == 'true'
 
-# n8n and apply.yml read repo and PR back from the run title; keep this format.
+# The dispatcher reads repo and PR back from the run title; keep this format.
 run-name: "Renovate repair ${{ inputs.repo }}#${{ inputs.pr }}"
 
 concurrency:

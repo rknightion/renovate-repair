@@ -33,8 +33,8 @@ outside this repo. Nothing in this repo merges anything.
 - gh-aw merges the agent's own `labels` into the PR's, so a label on a repair PR proves nothing.
   The dispatcher identifies its PRs by run correlation, never by label.
 - `AI_GATEWAY_TOKEN` is a Cloudflare token with Account AI Gateway Run only; the model is
-  DeepSeek `deepseek-flash` via the AI gateway endpoint set as `COPILOT_PROVIDER_BASE_URL` in
-  `repair.md` (Copilot BYOK, completions wire).
+  DeepSeek `deepseek-flash` via the AI gateway endpoint read from the `COPILOT_PROVIDER_BASE_URL` repository variable
+  (`repair.md` holds only the variable reference; never write the URL into the repo) (Copilot BYOK, completions wire).
 - **Carrier mode** (PR-rooted fix whose Renovate change is a protected path): one extra commit on the
   Renovate branch via `push-to-pull-request-branch`, pinned to `target: ${{ inputs.pr }}`, required
   label `stop-updating`, no fallback PR. The dispatcher holds the PR before dispatch (auto-merge off, Renovate's
