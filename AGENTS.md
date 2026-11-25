@@ -2,8 +2,8 @@
 
 A GitHub Agentic Workflows (gh-aw) workflow that repairs the CI failure blocking one Renovate pull
 request in a public rknightion or BroTEK-Solutions repository and proposes the fix as a PR (auto-merge off).
-Dispatched by the n8n workflow "GitHub — Renovate Repair Dispatcher", which also decides merges
-(`~/repos/chat-personal/n8n/renovate-repair.md`). Nothing in this repo merges anything.
+Dispatched by an external dispatcher workflow, which also decides merges. Its design notes are kept
+outside this repo. Nothing in this repo merges anything.
 
 - Edit `.github/workflows/repair.md`, then `just fmt` to regenerate `repair.lock.yml`. Never edit
   the lock file by hand. `just check` must pass before a commit.
@@ -25,25 +25,25 @@ Dispatched by the n8n workflow "GitHub — Renovate Repair Dispatcher", which al
   `renovate-repair-<repo>`, each role pinned to this repo's id, `main`, `workflow_dispatch` and
   `repair.lock.yml`. The `Resolve permission set` pre-step maps the input to the set name; an
   unknown name resolves to `renovate-repair-none`, which does not exist and fails closed. Enrolling a
-  repo = a `repos.txt` line plus the OpenBao set, policy and role. Runbook:
-  `~/repos/chat-personal/camden/openbao/runbooks/CI-SECRETS.md`.
+  repo = a `repos.txt` line plus the OpenBao set, policy and role. The OpenBao setup runbook is kept
+  outside this repo.
 - `run-name` is `Renovate repair <owner>/<repo>#<pr>`; the dispatcher parses it back. Keep the format.
 - Kill switch: repository variable `REPAIR_ENABLED` must equal `true` or every run skips at activation.
 - No job may hold `actions: write` either (a token with it could dispatch workflows here).
 - gh-aw merges the agent's own `labels` into the PR's, so a label on a repair PR proves nothing.
   The dispatcher identifies its PRs by run correlation, never by label.
 - `AI_GATEWAY_TOKEN` is a Cloudflare token with Account AI Gateway Run only; the model is
-  DeepSeek `deepseek-flash` via `https://ai.m7kni.com/deepseek` (Copilot BYOK, completions wire).
+  DeepSeek `deepseek-flash` via the AI gateway endpoint set as `COPILOT_PROVIDER_BASE_URL` in
+  `repair.md` (Copilot BYOK, completions wire).
 - **Carrier mode** (PR-rooted fix whose Renovate change is a protected path): one extra commit on the
   Renovate branch via `push-to-pull-request-branch`, pinned to `target: ${{ inputs.pr }}`, required
-  label `stop-updating`, no fallback PR. n8n holds the PR before dispatch (auto-merge off, Renovate's
+  label `stop-updating`, no fallback PR. The dispatcher holds the PR before dispatch (auto-merge off, Renovate's
   `stop-updating` label on) and passes `head_sha`; the `Guard the held Renovate PR` pre-step fails the
   safe_outputs job unless the PR is still held at that exact head. Without the hold, Renovate's
   GitHub auto-merge would merge the model's commit unseen. `check_lock.py` asserts all of this in
   both the tool and the handler config. gh-aw's unsigned `git push` fallback cannot be disabled at
-  v0.89.21, so n8n only trusts a GitHub-signed commit by the broker bot.
-- Plans: `~/repos/chat-personal/docs/superpowers/plans/2026-09-26-renovate-repair-gh-aw-pilot.md` (pilot),
-  `2026-09-26-renovate-repair-phase2.md` (dispatch and merge tiers), `2026-09-27-renovate-repair-carrier.md` (carrier mode).
+  v0.89.21, so the dispatcher only trusts a GitHub-signed commit by the broker bot.
+- Design history (pilot, dispatch and merge tiers, carrier mode) is kept outside this repo.
 
 ## Cursor Cloud specific instructions
 
