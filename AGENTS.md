@@ -44,11 +44,3 @@ outside this repo. Nothing in this repo merges anything.
   both the tool and the handler config. gh-aw's unsigned `git push` fallback cannot be disabled at
   v0.89.21, so the dispatcher only trusts a GitHub-signed commit by the broker bot.
 - Design history (pilot, dispatch and merge tiers, carrier mode) is kept outside this repo.
-
-## Cursor Cloud specific instructions
-
-- Build runs `just cloud-bootstrap` to install the pinned gh-aw compiler from its public release.
-  When bumping the compiler, update the matching Linux release checksums in `.cursor/install-gh-aw.sh`.
-- Run `just lint` for a fast lock check and `just check` for the full source gate, including workflow
-  compilation and a check for drift in the generated lock.
-- Dispatch and repair execution belong in GitHub Actions and require the configured hosted credentials.
